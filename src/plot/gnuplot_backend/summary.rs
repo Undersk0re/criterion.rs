@@ -198,9 +198,9 @@ pub fn violin(
             if is_first {
                 is_first = false;
 
-                c.set(DARK_BLUE).set(Label("PDF"))
+                c.set(COMPARISON_COLORS[i % NUM_COLORS]).set(Label("PDF"))
             } else {
-                c.set(DARK_BLUE)
+                c.set(COMPARISON_COLORS[i % NUM_COLORS])
             }
         });
     }
