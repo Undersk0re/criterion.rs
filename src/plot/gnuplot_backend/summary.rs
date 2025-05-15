@@ -188,7 +188,7 @@ pub fn violin(
 
     let mut is_first = true;
     for (i, (x, y)) in kdes.iter().enumerate() {
-        let j = i
+        let j = i;
         let i = i as f64 + 0.5;
         let y1: Vec<_> = y.iter().map(|&y| i + y * 0.45).collect();
         let y2: Vec<_> = y.iter().map(|&y| i - y * 0.45).collect();
