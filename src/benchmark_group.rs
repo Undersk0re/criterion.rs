@@ -81,7 +81,6 @@ pub struct BenchmarkGroup<'a, M: Measurement> {
     any_matched: bool,
     partial_config: PartialBenchmarkConfig,
     throughput: Option<Throughput>,
-    color: Option<String>,
 }
 impl<'a, M: Measurement> BenchmarkGroup<'a, M> {
     /// Changes the size of the sample for this benchmark
@@ -235,12 +234,6 @@ impl<'a, M: Measurement> BenchmarkGroup<'a, M> {
         self
     }
 
-    /// Set the color for this benchmark group's violin plot
-    pub fn color(&mut self, color: impl Into<String>) -> &mut Self {
-        self.color = Some(color.into());
-        self
-    }
-
     pub(crate) fn new(criterion: &mut Criterion<M>, group_name: String) -> BenchmarkGroup<'_, M> {
         BenchmarkGroup {
             criterion,
@@ -249,7 +242,6 @@ impl<'a, M: Measurement> BenchmarkGroup<'a, M> {
             any_matched: false,
             partial_config: PartialBenchmarkConfig::default(),
             throughput: None,
-            color: None,
         }
     }
 

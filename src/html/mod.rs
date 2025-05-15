@@ -752,12 +752,7 @@ impl Html {
             || {}
         );
 
-        self.plotter.borrow_mut().violin(
-            plot_ctx,
-            formatter,
-            data,
-            id.group_id.as_ref().and_then(|g| g.color.as_deref()),
-        );
+        self.plotter.borrow_mut().violin(plot_ctx, formatter, data);
 
         let value_types: Vec<_> = data.iter().map(|&&(id, _)| id.value_type()).collect();
         let mut line_path = None;
