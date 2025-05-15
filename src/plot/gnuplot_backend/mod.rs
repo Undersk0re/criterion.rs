@@ -208,6 +208,7 @@ impl Plotter for Gnuplot {
         ctx: PlotContext<'_>,
         formatter: &dyn ValueFormatter,
         all_curves: &[&(&BenchmarkId, Vec<f64>)],
+        color: Option<&str>,
     ) {
         let violin_path = ctx.violin_path();
 
@@ -217,6 +218,7 @@ impl Plotter for Gnuplot {
             all_curves,
             &violin_path,
             ctx.context.plot_config.summary_scale,
+            color,
         ));
     }
 

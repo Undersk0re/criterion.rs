@@ -127,6 +127,7 @@ pub fn violin(
     all_curves: &[&(&BenchmarkId, Vec<f64>)],
     path: &Path,
     axis_scale: AxisScale,
+    color: Option<&str>,
 ) -> Child {
     let path = PathBuf::from(&path);
     let all_curves_vec = all_curves.iter().rev().cloned().collect::<Vec<_>>();
@@ -197,10 +198,17 @@ pub fn violin(
         f.plot(FilledCurve { x, y1, y2 }, |c| {
             if is_first {
                 is_first = false;
-
-                c.set(DARK_BLUE).set(Label("PDF"))
+                if let Some(color) = color {
+                    c.set(Color::from(color)).set(Label("PDF"))
+                } else {
+                    c.set(DARK_BLUE).set(Label("PDF"))
+                }
             } else {
-                c.set(DARK_BLUE)
+                if let Some(color) = color {
+                    c.set(Color::from(color))
+                } else {
+                    c.set(DARK_BLUE)
+                }
             }
         });
     }

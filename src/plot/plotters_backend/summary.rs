@@ -157,6 +157,7 @@ pub fn violin(
     all_curves: &[&(&BenchmarkId, Vec<f64>)],
     path: &Path,
     axis_scale: AxisScale,
+    color: Option<&str>,
 ) {
     let all_curves_vec = all_curves.iter().rev().cloned().collect::<Vec<_>>();
     let all_curves: &[&(&BenchmarkId, Vec<f64>)] = &all_curves_vec;
@@ -207,9 +208,9 @@ pub fn violin(
         .unwrap();
 
     match axis_scale {
-        AxisScale::Linear => draw_violin_figure(root_area, unit, x_range, y_range, kdes),
+        AxisScale::Linear => draw_violin_figure(root_area, unit, x_range, y_range, kdes, color),
         AxisScale::Logarithmic => {
-            draw_violin_figure(root_area, unit, x_range.log_scale(), y_range, kdes);
+            draw_violin_figure(root_area, unit, x_range.log_scale(), y_range, kdes, color);
         }
     }
 }
@@ -221,6 +222,7 @@ fn draw_violin_figure<XR: AsRangedCoord<Value = f64>, YR: AsRangedCoord<Value = 
     x_range: XR,
     y_range: YR,
     data: Vec<(&str, Box<[f64]>, Box<[f64]>)>,
+    color: Option<&str>,
 ) where
     XR::CoordDescType: PlottersValueFormatter<f64>,
     YR::CoordDescType: PlottersValueFormatter<f64>,
@@ -243,6 +245,8 @@ fn draw_violin_figure<XR: AsRangedCoord<Value = f64>, YR: AsRangedCoord<Value = 
         .draw()
         .unwrap();
 
+    let color = color.map(|c| RGBColor::from_str(c).unwrap_or(DARK_BLUE)).unwrap_or(DARK_BLUE);
+
     for (i, (_, x, y)) in data.into_iter().enumerate() {
         let base = i as f64;
 
@@ -250,7 +254,7 @@ fn draw_violin_figure<XR: AsRangedCoord<Value = f64>, YR: AsRangedCoord<Value = 
             .draw_series(AreaSeries::new(
                 x.iter().zip(y.iter()).map(|(x, y)| (*x, base + *y / 2.0)),
                 base,
-                DARK_BLUE,
+                color,
             ))
             .unwrap();
 
@@ -258,7 +262,7 @@ fn draw_violin_figure<XR: AsRangedCoord<Value = f64>, YR: AsRangedCoord<Value = 
             .draw_series(AreaSeries::new(
                 x.iter().zip(y.iter()).map(|(x, y)| (*x, base - *y / 2.0)),
                 base,
-                DARK_BLUE,
+                color,
             ))
             .unwrap();
     }

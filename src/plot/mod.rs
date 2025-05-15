@@ -97,6 +97,7 @@ pub(crate) trait Plotter {
         ctx: PlotContext<'_>,
         formatter: &dyn ValueFormatter,
         all_curves: &[&(&BenchmarkId, Vec<f64>)],
+        color: Option<&str>,
     );
 
     fn t_test(&mut self, ctx: PlotContext<'_>, data: PlotData<'_>);
